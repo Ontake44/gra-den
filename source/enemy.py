@@ -122,15 +122,15 @@ class EnemyShot(EnemyBase):
 		self.type = gcommon.T_E_SHOT1
 		self.layer = gcommon.C_LAYER_E_SHOT
 		if shotType==0:
-			self.left = 6
-			self.top = 6
+			self.left = 2
+			self.top = 2
+			self.right = 5
+			self.bottom = 5
+		else:
+			self.left = 2
+			self.top = 2
 			self.right = 9
 			self.bottom = 9
-		else:
-			self.left = 4
-			self.top = 4
-			self.right = 11
-			self.bottom = 11
 
 	@classmethod
 	def createToMyShip(cls, x, y, speed, shotType, offsetDr):
@@ -160,6 +160,7 @@ class EnemyShot(EnemyBase):
 		else:
 			pyxel.blt(self.x, self.y, 0, 18, 18, 12, 12, gcommon.TP_COLOR)
 
+		#pyxel.rect(self.x+ self.left, self.y+self.top, self.right-self.left+1, self.bottom-self.top+1, 8)
 
 #
 # 爆発

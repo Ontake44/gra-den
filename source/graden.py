@@ -466,20 +466,21 @@ class MainGame:
 		self.mapOffsetX = 0
 		self.star_pos = 0
 		self.star_ary = []
+		self.pause = False
 		gcommon.game_timer = gcommon.START_GAME_TIMER
 		gcommon.map_y = gcommon.cur_scroll * gcommon.game_timer
 		self.initStory()
 		if self.stage == 1:
-			pyxel.image(1).load(0,0,"assets\gra-den1.png")
+			pyxel.image(1).load(0,0,"assets/gra-den1.png")
 			self.mapOffsetX = 0
 			gcommon.draw_star = False
 		elif self.stage == 2:
-			pyxel.image(1).load(0,0,"assets\gra-den2.png")
+			pyxel.image(1).load(0,0,"assets/gra-den2.png")
 			self.mapOffsetX = 32
 			gcommon.draw_star = False
 		elif self.stage == 3:
-			pyxel.image(1).load(0,0,"assets\gra-den3a.png")
-			pyxel.image(2).load(0,0,"assets\gra-den3b.png")
+			pyxel.image(1).load(0,0,"assets/gra-den3a.png")
+			pyxel.image(2).load(0,0,"assets/gra-den3b.png")
 			self.mapOffsetX = 64
 			gcommon.draw_star = True
 		pyxel.tilemap(0).refimg = 1
@@ -490,6 +491,22 @@ class MainGame:
 		
 		
 	def update(self):
+		# PAUSE
+		if self.pause:
+			if pyxel.btnp(pyxel.KEY_F1) or pyxel.btnp(pyxel.GAMEPAD_1_START):
+				self.pause = False
+			else:
+				return
+		else:
+			if pyxel.btnp(pyxel.KEY_F1) or pyxel.btnp(pyxel.GAMEPAD_1_START):
+				self.pause = True
+				return
+		# 星
+		if gcommon.draw_star:
+			self.star_pos += 0.2
+			if self.star_pos>255:
+				self.star_pos -= 255
+
 		self.ExecuteStory()
 		
 		# MAP
@@ -536,7 +553,6 @@ class MainGame:
 	def draw(self):
 		pyxel.cls(0)
 		
-		
 		#pyxel.text(55, 41, "Hello, Pyxel!", pyxel.frame_count % 16)
 		#pyxel.blt(61, 66, 0, 0, 0, 38, 16)
 		if self.stage == 1:
@@ -546,10 +562,6 @@ class MainGame:
 				for i in range(0,128):
 					pyxel.pset(self.star_ary[i][0], (self.star_pos+i*2)%255, self.star_ary[i][1])
 				
-				self.star_pos += 0.2
-				if self.star_pos>255:
-					self.star_pos -= 255
-
 			#for obj in gcommon.ObjMgr.objs:
 			#	if obj.layer==gcommon.C_LAYER_UNDER_GRD:
 			#		if obj.hitcolor1 !=0 and obj.hit:
@@ -564,10 +576,6 @@ class MainGame:
 				for i in range(0,128):
 					pyxel.pset(self.star_ary[i][0], (self.star_pos+i*2)%255, self.star_ary[i][1])
 				
-				self.star_pos += 0.2
-				if self.star_pos>255:
-					self.star_pos -= 255
-
 			for obj in gcommon.ObjMgr.objs:
 				if obj.layer==gcommon.C_LAYER_UNDER_GRD:
 					if obj.hitcolor1 !=0 and obj.hit:
@@ -649,6 +657,11 @@ class MainGame:
 		#pyxel.text(0, 220, str(gcommon.game_timer), 7)
 		# マップ位置表示
 		#pyxel.text(0, 230, str(gcommon.map_y), 7)
+
+		if self.pause:
+			pyxel.rect(127 -24, 127 -10, 48, 20, 0)
+			pyxel.rectb(127 -24, 127 -10, 48, 20, 7)
+			gcommon.TextHCenter(127- 3, "PAUSE", 7, -1)
 
 	def ExecuteStory(self):
 		while True:

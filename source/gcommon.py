@@ -337,18 +337,12 @@ def sound(snd):
 	if (SOUND_ON):
 		pos = pyxel.play_pos(0)
 		if (pos is None):
-			print("no sound playing")
 			pyxel.play(0, snd)
 			return
 		(s, n) = pos
-		print("s,n=({},{})".format(s,n))
 		if sound_priority[s]<sound_priority[snd]:
-			print("override: {}>{}".format(sound_priority[snd], sound_priority[s]))
 			pyxel.stop(0)
 			pyxel.play(0, snd)
-		else:
-			print("drop: {}<{}".format(sound_priority[snd], sound_priority[s]))
-
 
 def getCenterX(obj):
 	return obj.x + (obj.right -obj.left+1)/2

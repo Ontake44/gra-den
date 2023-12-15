@@ -286,13 +286,13 @@ def is_outof_bound(obj):
 
 
 def checkShotKey():
-	if pyxel.btn(pyxel.KEY_Z) or pyxel.btn(pyxel.GAMEPAD_1_A) or pyxel.btn(pyxel.GAMEPAD_1_Y):
+	if pyxel.btn(pyxel.KEY_Z) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_A) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_Y):
 		return True
 	else:
 		return False
 
 def checkBomKey():
-	if pyxel.btn(pyxel.KEY_X) or pyxel.btn(pyxel.GAMEPAD_1_B) or pyxel.btn(pyxel.GAMEPAD_1_X):
+	if pyxel.btn(pyxel.KEY_X) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_B) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_X):
 		return True
 	else:
 		return False
@@ -335,16 +335,19 @@ def draw_splash2(o, offset):
 
 def sound(snd):
 	if (SOUND_ON):
-		n = pyxel.play_pos(0)
-		if n >=0:
-			pass
-			#print("snd=" + hex(n))
-		if (n == -1):
+		pos = pyxel.play_pos(0)
+		if (pos is None):
+			print("no sound playing")
+			pyxel.play(0, snd)
+			return
+		(s, n) = pos
+		print("s,n=({},{})".format(s,n))
+		if sound_priority[s]<sound_priority[snd]:
+			print("override: {}>{}".format(sound_priority[snd], sound_priority[s]))
+			pyxel.stop(0)
 			pyxel.play(0, snd)
 		else:
-			if sound_priority[int(n/10)]<sound_priority[snd]:
-				pyxel.stop(0)
-				pyxel.play(0, snd)
+			print("drop: {}<{}".format(sound_priority[snd], sound_priority[s]))
 
 
 def getCenterX(obj):
@@ -380,19 +383,19 @@ def bltStripe(x, y, img, u, v, w, h, col, p):
 
 
 def checkLeftP():
-	return pyxel.btnp(pyxel.KEY_LEFT) or pyxel.btnp(pyxel.GAMEPAD_1_LEFT)
+	return pyxel.btnp(pyxel.KEY_LEFT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_LEFT)
 
 def checkRightP():
-	return pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.GAMEPAD_1_RIGHT)
+	return pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT)
 
 def checkUpP():
-	return pyxel.btnp(pyxel.KEY_UP) or pyxel.btnp(pyxel.GAMEPAD_1_UP)
+	return pyxel.btnp(pyxel.KEY_UP) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_UP)
 
 def checkDownP():
-	return pyxel.btnp(pyxel.KEY_DOWN) or pyxel.btnp(pyxel.GAMEPAD_1_DOWN)
+	return pyxel.btnp(pyxel.KEY_DOWN) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_DOWN)
 
 def checkShotKeyP():
-	if pyxel.btnp(pyxel.KEY_SHIFT) or pyxel.btnp(pyxel.GAMEPAD_1_A) or pyxel.btnp(pyxel.GAMEPAD_1_Y):
+	if pyxel.btnp(pyxel.KEY_SHIFT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_A) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_Y):
 		return True
 	else:
 		return False

@@ -1,3 +1,4 @@
+import os
 import pyxel
 import math
 import random
@@ -80,19 +81,19 @@ class MainGame:
 		gcommon.map_y = gcommon.cur_scroll * gcommon.game_timer
 		self.initStory()
 		if self.stage == 1:
-			pyxel.image(1).load(0,0,"assets/gra-den1.png")
+			pyxel.images[1].load(0,0,os.path.join("assets", "gra-den1.png"))
 			self.mapOffsetX = 0
 			gcommon.draw_star = False
 		elif self.stage == 2:
-			pyxel.image(1).load(0,0,"assets/gra-den2.png")
+			pyxel.images[1].load(0,0,os.path.join("assets", "gra-den2.png"))
 			self.mapOffsetX = 32
 			gcommon.draw_star = False
 		elif self.stage == 3:
-			pyxel.image(1).load(0,0,"assets/gra-den3a.png")
-			pyxel.image(2).load(0,0,"assets/gra-den3b.png")
+			pyxel.images[1].load(0,0,os.path.join("assets", "gra-den3a.png"))
+			pyxel.images[2].load(0,0,os.path.join("assets", "gra-den3b.png"))
 			self.mapOffsetX = 64
 			gcommon.draw_star = True
-		pyxel.tilemap(0).refimg = 1
+		pyxel.tilemap(0).imgsrc = 1
 		
 		for i in range(0,128):
 			o = [int(random.randrange(0,256)), int(random.randrange(0,2)+5)]
@@ -102,12 +103,12 @@ class MainGame:
 	def update(self):
 		# PAUSE
 		if self.pause:
-			if pyxel.btnp(pyxel.KEY_F1) or pyxel.btnp(pyxel.GAMEPAD_1_START):
+			if pyxel.btnp(pyxel.KEY_F1) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_START):
 				self.pause = False
 			else:
 				return
 		else:
-			if pyxel.btnp(pyxel.KEY_F1) or pyxel.btnp(pyxel.GAMEPAD_1_START):
+			if pyxel.btnp(pyxel.KEY_F1) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_START):
 				self.pause = True
 				return
 		# 星
@@ -165,7 +166,7 @@ class MainGame:
 		#pyxel.text(55, 41, "Hello, Pyxel!", pyxel.frame_count % 16)
 		#pyxel.blt(61, 66, 0, 0, 0, 38, 16)
 		if self.stage == 1:
-			pyxel.bltm(0,-8+gcommon.map_y%8, 0, self.mapOffsetX,(256-33)-(int)(gcommon.map_y/8),32,33)
+			pyxel.bltm(0,-8+gcommon.map_y%8, 0, 8*(self.mapOffsetX),8*((256-33)-(int)(gcommon.map_y/8)),32*8,33*8)
 		elif self.stage == 2:
 			if gcommon.draw_star:
 				for i in range(0,128):
@@ -179,7 +180,7 @@ class MainGame:
 			#		if obj.hitcolor1 !=0 and obj.hit:
 			#			pyxel.pal(obj.hitcolor1, obj.hitcolor1)
 			# map
-			pyxel.bltm(0,-8+int(gcommon.map_y)%8, 0, self.mapOffsetX,(256-33)-(int)(gcommon.map_y/8),32,33, gcommon.TP_COLOR)
+			pyxel.bltm(0,-8+int(gcommon.map_y)%8, 0, 8*(self.mapOffsetX,(256-33)-(int)(gcommon.map_y/8)),8*32,8*33, gcommon.TP_COLOR)
 		elif self.stage == 3:
 			if gcommon.draw_star:
 				for i in range(0,128):
@@ -194,7 +195,7 @@ class MainGame:
 						pyxel.pal(obj.hitcolor1, obj.hitcolor1)
 			# map
 			if gcommon.map_y < 1664:
-				pyxel.bltm(0,-8+int(gcommon.map_y)%8, 0, self.mapOffsetX,(256-33)-(int)(gcommon.map_y/8),32,33, gcommon.TP_COLOR)
+				pyxel.bltm(0,-8+int(gcommon.map_y)%8, 0, 8*(self.mapOffsetX,(256-33)-(int)(gcommon.map_y/8)),8*32,8*33, gcommon.TP_COLOR)
 		
 		
 		# enemy(ground)
@@ -388,10 +389,11 @@ class App:
 	
 		#pyxel.init(256, 256, caption="GRA-DEN", fps=60)
 		#                                                    0       1         2         3         4         5         6         7         8         9        10        11        12        13        14        15
-		pyxel.init(256, 256, caption="GRA-DEN", palette=[0x000000, 0x1D2B53, 0x7E2553, 0x008751, 0xAB5236, 0x5F574F, 0xC2C3C7, 0xFFF1E8, 0xFF004D, 0xFFA300, 0xFFEC27, 0x00E436, 0x29ADFF, 0x83769C, 0xFF77A8, 0xFFCCAA],fps=60)
+		pyxel.init(256, 256, title="GRA-DEN", fps=60)
+		pyxel.colors.from_list([0x000000, 0x1D2B53, 0x7E2553, 0x008751, 0xAB5236, 0x5F574F, 0xC2C3C7, 0xFFF1E8, 0xFF004D, 0xFFA300, 0xFFEC27, 0x00E436, 0x29ADFF, 0x83769C, 0xFF77A8, 0xFFCCAA])
  		
-		pyxel.load("assets/gra-den.pyxres")
-		pyxel.image(0).load(0,0,"assets/gra-den0.png")
+		pyxel.load(os.path.join("assets", "gra-den.pyxres"))
+		pyxel.images[0].load(0,0,os.path.join("assets","gra-den0.png"))
 		
 		gcommon.init_atan_table()
 		

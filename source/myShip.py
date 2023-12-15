@@ -62,21 +62,21 @@ class MyShip:
 	
 	def actionButtonInput(self):
 		self.sprite = 1
-		if pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.GAMEPAD_1_LEFT):
+		if pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_LEFT):
 			self.x = self.x -2
 			self.sprite = 3
 			if self.x < 0:
 				self.x = 0
-		elif pyxel.btn(pyxel.KEY_RIGHT) or pyxel.btn(pyxel.GAMEPAD_1_RIGHT):
+		elif pyxel.btn(pyxel.KEY_RIGHT) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT):
 			self.x = self.x +2
 			self.sprite = 2
 			if self.x > 240:
 				self.x = 240
-		if pyxel.btn(pyxel.KEY_UP) or pyxel.btn(pyxel.GAMEPAD_1_UP):
+		if pyxel.btn(pyxel.KEY_UP) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_UP):
 			self.y = self.y -2
 			if self.y < 16:
 				self.y = 16
-		elif pyxel.btn(pyxel.KEY_DOWN) or pyxel.btn(pyxel.GAMEPAD_1_DOWN):
+		elif pyxel.btn(pyxel.KEY_DOWN) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_DOWN):
 			self.y = self.y +2
 			if self.y > 240:
 				self.y = 240

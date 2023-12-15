@@ -1,4 +1,5 @@
 import pyxel
+import os
 import math
 import random
 
@@ -12,8 +13,8 @@ class TitleScene:
 	def __init__(self):
 		gcommon.map_y = 0
 		self.cnt = 0
-		pyxel.image(1).load(0,0,"assets\gra-den1.png")
-		pyxel.tilemap(0).refimg = 1
+		pyxel.images[1].load(0,0,os.path.join("assets", "gra-den1.png"))
+		pyxel.tilemaps[0].imgsrc = 1
 		self.menuPos = 0
 		self.timer = 0
 		self.state = 0
@@ -52,7 +53,7 @@ class TitleScene:
 
 	def draw(self):
 		pyxel.cls(0)
-		pyxel.bltm(0,-8+gcommon.map_y%8, 0, 0,(256-33)-(int)(gcommon.map_y/8),32,33)
+		pyxel.bltm(0,-8+gcommon.map_y%8, 0, 0,8*((256-33)-(int)(gcommon.map_y/8)),8*32,8*33)
 		pyxel.blt(64, 88, 0, 0, 208, 128, 32, gcommon.TP_COLOR)
 		if self.state == 0:
 			gcommon.Text2(110, 150, "GAME START", 7, 5)
